@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reality Check — White Paper zur fachlichen Prüfung</title>
+    <meta name="description" content="White Paper zur Algorithmik, Modellbezug und Auswertungslogik der App Reality Check — Relationships.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --text: #1A1A1A;
+            --text-secondary: #444;
+            --text-muted: #707070;
+            --border: #E5E5E5;
+            --border-strong: #CCC;
+            --accent: #8B2C4A;
+            --accent-soft: #F7EFF2;
+            --highlight: #F5F3EC;
+            --warning: #A05A0A;
+            --warning-soft: #FAF2E7;
+            --success: #2F6A3E;
+            --success-soft: #EAF3EC;
+            --code-bg: #F7F7F5;
+            --serif: "Crimson Pro", "Georgia", ui-serif, serif;
+            --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --mono: "JetBrains Mono", "Menlo", "Consolas", monospace;
+            --max-width: 780px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--serif);
+            font-size: 18px;
+            line-height: 1.65;
+            color: var(--text);
+            background: #FFFDF9;
+            padding: 60px 24px 120px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        /* === Cover === */
+        .cover { margin-bottom: 80px; padding-bottom: 48px; border-bottom: 1px solid var(--border); }
+        .cover-kicker { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+        .cover h1 { font-size: 54px; line-height: 1.08; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 16px; }
+        .cover-subtitle { font-size: 24px; font-style: italic; color: var(--text-secondary); margin-bottom: 38px; line-height: 1.4; }
+        .cover-intent { font-family: var(--sans); font-size: 14px; color: var(--text-secondary); background: var(--highlight); padding: 16px 20px; border-left: 3px solid var(--accent); margin-bottom: 36px; }
+        .cover-meta { font-family: var(--sans); font-size: 13px; color: var(--text-muted); line-height: 1.8; }
+        .cover-meta strong { color: var(--text); }
+
+        /* === Typography === */
+        h2 { font-size: 34px; line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; margin: 64px 0 20px; padding-top: 48px; border-top: 1px solid var(--border); }
+        h2::before { content: attr(data-num); font-size: 13px; font-family: var(--sans); font-weight: 700; letter-spacing: 2px; color: var(--accent); display: block; margin-bottom: 10px; text-transform: uppercase; }
+        h3 { font-size: 22px; line-height: 1.3; font-weight: 600; margin: 40px 0 14px; }
+        h4 { font-size: 17px; font-weight: 600; margin: 28px 0 10px; font-family: var(--sans); }
+        p { margin-bottom: 16px; }
+        a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+        strong { font-weight: 600; }
+        em { font-style: italic; }
+        ul, ol { padding-left: 24px; margin-bottom: 16px; }
+        li { margin-bottom: 6px; padding-left: 4px; }
+
+        /* === TOC === */
+        .toc { background: var(--highlight); border: 1px solid var(--border); border-radius: 6px; padding: 28px 32px; margin-bottom: 72px; font-family: var(--sans); }
+        .toc-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; }
+        .toc ol { list-style: none; padding: 0; counter-reset: toc; }
+        .toc li { counter-increment: toc; padding: 6px 0; border-bottom: 1px dotted var(--border-strong); font-size: 15px; }
+        .toc li:last-child { border-bottom: none; }
+        .toc li::before { content: counter(toc, decimal-leading-zero); color: var(--text-muted); font-weight: 600; margin-right: 12px; font-variant-numeric: tabular-nums; }
+        .toc a { text-decoration: none; color: var(--text); }
+        .toc a:hover { color: var(--accent); }
+
+        /* === Tables === */
+        .table-wrap { margin: 24px 0; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+        th { font-weight: 600; text-align: left; padding: 10px 14px; background: #FAF8F3; border-bottom: 2px solid var(--border-strong); font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+        td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+
+        /* === Code === */
+        pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; padding: 14px 18px; font-family: var(--mono); font-size: 13px; line-height: 1.55; margin: 18px 0; overflow-x: auto; color: var(--text); }
+        code { font-family: var(--mono); font-size: 14px; background: var(--code-bg); padding: 2px 6px; border-radius: 3px; color: var(--text); }
+        pre code { background: transparent; padding: 0; }
+
+        /* === Callouts === */
+        .callout { font-family: var(--sans); font-size: 14.5px; line-height: 1.6; padding: 16px 20px; border-radius: 4px; margin: 22px 0; }
+        .callout-question { background: var(--warning-soft); border-left: 3px solid var(--warning); color: #3D2B10; margin-top: 24px; }
+        .callout-question strong { color: var(--warning); font-weight: 700; }
+        .callout-info { background: var(--highlight); border-left: 3px solid var(--accent); color: var(--text-secondary); }
+
+        /* === Review Input Fields === */
+        .review-field {
+            font-family: var(--sans);
+            background: #FAF9F5;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--success);
+            border-radius: 0 4px 4px 0;
+            padding: 18px 20px;
+            margin-top: -8px;
+            margin-bottom: 28px;
+        }
+        .review-field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+        .review-field textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px 12px;
+            border: 1px solid var(--border-strong);
+            border-radius: 4px;
+            font-family: var(--sans);
+            font-size: 14.5px;
+            line-height: 1.55;
+            background: white;
+            color: var(--text);
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .review-field textarea:focus {
+            border-color: var(--success);
+            box-shadow: 0 0 0 3px rgba(47, 106, 62, 0.1);
+        }
+
+        /* === Reviewer Identity Card === */
+        .reviewer-identity {
+            background: linear-gradient(135deg, #FAF9F5 0%, #F0EDE3 100%);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 32px;
+            margin-bottom: 48px;
+            font-family: var(--sans);
+        }
+        .reviewer-identity h3 {
+            font-family: var(--sans);
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+            color: var(--text);
+        }
+        .reviewer-identity p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+        }
+        .reviewer-identity .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 560px) {
+            .reviewer-identity .form-row { grid-template-columns: 1fr; }
+        }
+        .reviewer-identity label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .reviewer-identity input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-strong);
+            border-radius: 4px;
+            font-family: var(--sans);
+            font-size: 15px;
+            background: white;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .reviewer-identity input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 44, 74, 0.1);
+        }
+
+        /* === Submit Section === */
+        .submit-section {
+            margin-top: 80px;
+            padding: 40px 32px;
+            background: linear-gradient(135deg, #FAF9F5 0%, #F0EDE3 100%);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            font-family: var(--sans);
+        }
+        .submit-section h3 {
+            font-family: var(--sans);
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        .submit-section p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 22px;
+        }
+        .submit-button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            font-family: var(--sans);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+        .submit-button:hover {
+            background: #701F3A;
+            transform: translateY(-1px);
+        }
+        .submit-button:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+        .autosave-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 16px;
+            font-style: italic;
+        }
+
+        /* === Success screen === */
+        .success-screen {
+            display: none;
+            padding: 60px 32px;
+            background: var(--success-soft);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            text-align: center;
+            font-family: var(--sans);
+            margin-top: 48px;
+        }
+        .success-screen.visible { display: block; }
+        .success-icon {
+            font-size: 52px;
+            margin-bottom: 18px;
+        }
+        .success-screen h3 {
+            font-family: var(--sans);
+            font-size: 24px;
+            color: var(--success);
+            margin-bottom: 12px;
+        }
+        .success-screen p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 12px;
+        }
+
+        /* === Error banner === */
+        .error-banner {
+            display: none;
+            background: #FDECEC;
+            border: 1px solid #B83A3A;
+            color: #7C1F1F;
+            padding: 14px 18px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-family: var(--sans);
+            font-size: 14px;
+        }
+        .error-banner.visible { display: block; }
+
+        /* === Footer === */
+        .footer { margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--border); font-family: var(--sans); font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+        .footer p { margin-bottom: 8px; }
+
+        /* === Mobile === */
+        @media (max-width: 640px) {
+            body { font-size: 16px; padding: 28px 16px 60px; }
+            .cover h1 { font-size: 38px; }
+            .cover-subtitle { font-size: 19px; }
+            h2 { font-size: 26px; margin-top: 48px; padding-top: 36px; }
+            h3 { font-size: 19px; }
+            pre { font-size: 12px; padding: 12px 14px; }
+            th, td { padding: 8px 10px; font-size: 13px; }
+            .toc { padding: 20px; }
+            .reviewer-identity { padding: 22px; }
+            .review-field { padding: 14px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hidden Netlify Form Definition for Detection -->
+<form name="whitepaper-review" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="reviewer_name" />
+    <input type="email" name="reviewer_email" />
+    <textarea name="feedback_6_1"></textarea>
+    <textarea name="feedback_6_3"></textarea>
+    <textarea name="feedback_6_4"></textarea>
+    <textarea name="feedback_6_5"></textarea>
+    <textarea name="feedback_6_6"></textarea>
+    <textarea name="feedback_6_7"></textarea>
+    <textarea name="feedback_6_8"></textarea>
+    <textarea name="feedback_p1"></textarea>
+    <textarea name="feedback_p2"></textarea>
+    <textarea name="feedback_p3"></textarea>
+    <textarea name="feedback_p4"></textarea>
+    <textarea name="feedback_general"></textarea>
+</form>
+
+<div class="container">
+
+    <form id="reviewForm" name="whitepaper-review" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="whitepaper-review">
+        <p style="display:none;">
+            <label>Leer lassen: <input name="bot-field"></label>
+        </p>
+
+        <!-- COVER -->
+        <header class="cover">
+            <div class="cover-kicker">White Paper · Pre-Launch-Gutachten</div>
+            <h1>Reality Check</h1>
+            <p class="cover-subtitle">Algorithmik, Modellbezug und Auswertungslogik der App zur paardiagnostischen Selbstreflexion</p>
+            <div class="cover-intent">
+                Ein Dokument zur fachlichen Prüfung durch Psycholog:innen und Paartherapeut:innen. Wir bitten um kritische Rückmeldung zu Operationalisierungen, Kalibrierung und ethischer Angemessenheit, bevor die App veröffentlicht wird.
+            </div>
+            <div class="cover-meta">
+                <strong>Herausgeber:</strong> FJP Brands GmbH · Schulstraße 22 · 48149 Münster<br>
+                <strong>Kontakt:</strong> <a href="mailto:info@fjpbrands.com">info@fjpbrands.com</a><br>
+                <strong>Autor:</strong> Friedemann Roumiantsev (Produktverantwortlich, Programmierung)<br>
+                <strong>Version:</strong> 1.0 · Stand April 2026
+            </div>
+        </header>
+
+        <!-- REVIEWER IDENTITY -->
+        <section class="reviewer-identity">
+            <h3>Ihre Angaben als Gutachter:in</h3>
+            <p>Ihr Name wird zusammen mit Ihrem Feedback übermittelt und dient als Signatur. Die E-Mail-Adresse ist optional und ermöglicht Rückfragen.</p>
+            <div class="form-row">
+                <div>
+                    <label for="reviewer_name">Name (Pflichtfeld)</label>
+                    <input type="text" id="reviewer_name" name="reviewer_name" placeholder="Dr. Maria Beispiel" required>
+                </div>
+                <div>
+                    <label for="reviewer_email">E-Mail (optional)</label>
+                    <input type="email" id="reviewer_email" name="reviewer_email" placeholder="m.beispiel@uni-xy.de">
+                </div>
+            </div>
+        </section>
+
+        <!-- TOC -->
+        <nav class="toc">
+            <div class="toc-title">Inhaltsverzeichnis</div>
+            <ol>
+                <li><a href="#s1">Executive Summary</a></li>
+                <li><a href="#s2">Zweck des Dokuments</a></li>
+                <li><a href="#s3">Produkt und Positionierung</a></li>
+                <li><a href="#s4">Theoretisches Fundament</a></li>
+                <li><a href="#s5">Messinstrument: Fragenkatalog</a></li>
+                <li><a href="#s6">Analyse-Pipeline</a></li>
+                <li><a href="#s7">Output und Personalisierung</a></li>
+                <li><a href="#s8">Bekannte Limitationen</a></li>
+                <li><a href="#s9">Konkrete Fragen an die Gutachter:innen</a></li>
+                <li><a href="#s10">Anhang: Referenzen</a></li>
+            </ol>
+        </nav>
+
+        <!-- 1. EXECUTIVE SUMMARY -->
+        <h2 id="s1" data-num="Abschnitt 1">Executive Summary</h2>
+        <p><strong>Reality Check — Relationships</strong> ist eine iOS-Anwendung für paardiagnostische Selbstreflexion. Das Tool kombiniert einen 97-Fragen-Katalog mit einer mehrstufigen Analyse-Pipeline, die auf etablierten Modellen der Persönlichkeits-, Bindungs- und Paarforschung aufbaut.</p>
+        <p>Das Kernversprechen an Nutzer:innen ist <strong>nicht klinische Diagnose</strong>, sondern <strong>strukturierte Selbstreflexion</strong> auf Basis wissenschaftlich fundierter Konstrukte. Die App verarbeitet Daten ausschließlich lokal (keine Server, keine Übertragung).</p>
+
+        <h3>Methodische Eckdaten</h3>
+        <ul>
+            <li><strong>20 inhaltliche Dimensionen</strong> (12 Kerndimensionen + 8 Lifestyle-Dimensionen)</li>
+            <li><strong>97 Einzelfragen</strong> auf 10-stufiger Likert-Skala, jeweils in Selbst- und Fremdeinschätzung</li>
+            <li><strong>4-Schwellen-Klassifikation</strong> für Dimensions-Differenzen (low / moderate / high / critical)</li>
+            <li><strong>11 Paararchetypen</strong>, priorisiert zugeordnet nach Bindungsstil-Kombination</li>
+            <li><strong>2D-Bindungstyp-Klassifikation</strong> (Anxiety × Avoidance, nach Bartholomew/Horowitz)</li>
+            <li><strong>5-Kategorien-Love-Language-Profil</strong> (nach Chapman)</li>
+            <li><strong>12 regelbasierte Composite-Insight-Detektoren</strong></li>
+            <li><strong>3 personalisierte Prognosen</strong> pro Nutzerpaar</li>
+        </ul>
+
+        <div class="callout callout-info">
+            <strong>Was dieses Dokument leistet:</strong> Vollständige Offenlegung der Algorithmen, Schwellenwerte, Modellbezüge und Entscheidungslogik — mit dem expliziten Ziel, fachlich fundierte Kritik und Verbesserungsvorschläge zu erhalten.
+        </div>
+
+        <!-- 2. ZWECK -->
+        <h2 id="s2" data-num="Abschnitt 2">Zweck des Dokuments</h2>
+        <p>Wir suchen die fachliche Einschätzung von Psycholog:innen und Paartherapeut:innen zu folgenden Punkten:</p>
+        <ol>
+            <li><strong>Modellierungs-Plausibilität:</strong> Sind die Operationalisierungen psychologischer Konstrukte (Anxiety, Avoidance, Konfliktstil etc.) über die verwendeten Fragen angemessen?</li>
+            <li><strong>Schwellenwert-Kalibrierung:</strong> Sind die gewählten Cutoffs (z.B. „Anxiety &gt; 5.5 = high") empirisch vertretbar?</li>
+            <li><strong>Sprachlich-inhaltliche Genauigkeit:</strong> Sind die generierten Texte und Interpretationen fachlich korrekt und ethisch angemessen?</li>
+            <li><strong>Stigmatisierungsrisiko:</strong> Gibt es Formulierungen, die pathologisieren oder Nutzer:innen in problematische Selbstbilder drängen könnten?</li>
+            <li><strong>Normdifferenzierung:</strong> Fehlen wichtige Dimensionen oder Differenzierungen?</li>
+        </ol>
+        <p>Die App befindet sich in der <strong>Pre-Launch-Phase</strong>. Alle Änderungsvorschläge sind noch vollständig einarbeitbar, bevor öffentliche Nutzer:innen das Tool verwenden.</p>
+
+        <!-- 3. PRODUKT -->
+        <h2 id="s3" data-num="Abschnitt 3">Produkt und Positionierung</h2>
+        <h3>3.1 Zielgruppe</h3>
+        <p>Paare im Alter 20–45, die Interesse an einer strukturierten Selbstreflexion ihrer Beziehungsdynamik haben. <strong>Kein therapeutischer Anspruch:</strong> Die App positioniert sich als Reflexions- und Gesprächswerkzeug, nicht als Diagnostik.</p>
+
+        <h3>3.2 Anwendungsszenario</h3>
+        <p>Die App wird von <strong>einer Person auf einem Gerät</strong> genutzt (eine Cloud-Sync-Funktion für zwei Geräte ist zukünftig geplant). Beide Partner beantworten:</p>
+        <ul>
+            <li><strong>Selbst-Assessment (Self):</strong> Aussagen über sich selbst („Ich spreche Probleme direkt an.")</li>
+            <li><strong>Partner-Assessment:</strong> dieselben Konzepte aus Perspektive des anderen („Mein:e Partner:in spricht Probleme direkt an.")</li>
+        </ul>
+        <p>Pro Konzept entstehen so <strong>vier Messpunkte</strong>: Lenas Selbst-Einschätzung + Markus' Fremd-Einschätzung von Lena (sowie umgekehrt). Die App vergleicht primär die Differenz <strong>zwischen Selbstbild und Fremdbild</strong>, orientiert an der Self-/Spouse-Report-Methodik der Paardiagnostik.</p>
+
+        <h3>3.3 Abgrenzung</h3>
+        <ul>
+            <li><strong>Keine Diagnose psychischer Störungen.</strong> Keine Klassifikation nach DSM/ICD.</li>
+            <li><strong>Keine Risikoprognose im klinischen Sinne.</strong> Die „Prognosen" sind <em>narrative Projektionen</em> bekannter Muster, explizit als solche benannt.</li>
+            <li><strong>Kein Ersatz für Paartherapie.</strong> Der Disclaimer ist bewusst prominent.</li>
+        </ul>
+
+        <!-- 4. THEORETISCHES FUNDAMENT -->
+        <h2 id="s4" data-num="Abschnitt 4">Theoretisches Fundament</h2>
+        <p>Die Analyse stützt sich auf 12 psychologische Modelle, die auf der separaten Seite „Psychologisches Fundament" (innerhalb der App) jeweils mit Entstehung, Kernidee und Anwendung im Tool beschrieben sind:</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>#</th><th>Modell</th><th>Primäre Referenz</th><th>Anwendung im Tool</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Big Five Persönlichkeitsmodell</td><td>Costa &amp; McCrae (1992); McCrae &amp; John (1992)</td><td>Persönlichkeitsfragen</td></tr>
+                    <tr><td>2</td><td>Bindungstheorie</td><td>Bowlby (1969); Ainsworth (1978); Hazan &amp; Shaver (1987); Fraley (2000); Bartholomew &amp; Horowitz (1991)</td><td>Anxiety-/Avoidance-Score, 4-Typen-Klassifikation</td></tr>
+                    <tr><td>3</td><td>Werteforschung</td><td>Schwartz (1992, 2012); Rokeach (1973)</td><td>Werteabgleich, Langzeit-Stabilitätsprognose</td></tr>
+                    <tr><td>4</td><td>Gottman-Methode</td><td>Gottman (1999, 2011, 2015)</td><td>Four Horsemen, Shared Meaning, 5:1 Magic Ratio, Flooding</td></tr>
+                    <tr><td>5</td><td>Emotionally Focused Therapy</td><td>Johnson (1996, 2008)</td><td>Protest-Rückzug-Zyklus, Bindungs-Bedürfnisse</td></tr>
+                    <tr><td>6</td><td>5 Liebessprachen</td><td>Chapman (1992)</td><td>Ausdrucks- und Empfangsform von Zuneigung</td></tr>
+                    <tr><td>7</td><td>Polyvagal-Theorie</td><td>Porges (2011)</td><td>Emotionales Flooding / Stress-Reaktivität</td></tr>
+                    <tr><td>8</td><td>Perel-Paradox</td><td>Perel (2006, 2017)</td><td>Spannung zwischen Sicherheit und Begehren</td></tr>
+                    <tr><td>9</td><td>Imago-Therapie</td><td>Hendrix (1988)</td><td>Partnerwahl und frühe Prägung</td></tr>
+                    <tr><td>10</td><td>Internal Family Systems</td><td>Schwartz, R. (1997)</td><td>Teile-Modell, innere Konflikte</td></tr>
+                    <tr><td>11</td><td>Self-Other Asymmetry</td><td>Pronin (2008)</td><td>Wahrnehmungs-Gap Self vs. Other</td></tr>
+                    <tr><td>12</td><td>Mental Load</td><td>Emma (2017); soziologische Literatur</td><td>Emotionale/organisatorische Arbeitsverteilung</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout callout-info">
+            <strong>Wichtige Einschränkung:</strong> Die App adaptiert Ideen dieser Modelle — sie nutzt <strong>keine 1:1 validierten Instrumente</strong> (wie ECR, RELATE, PREPARE). Die Items sind <strong>eigene Konstruktionen auf Basis der Literatur</strong> und wurden <strong>nicht psychometrisch validiert</strong>. Dies ist einer der primären Gründe für die vorliegende Gutachter:innen-Anfrage.
+        </div>
+
+        <!-- 5. MESSINSTRUMENT -->
+        <h2 id="s5" data-num="Abschnitt 5">Messinstrument: Fragenkatalog</h2>
+        <h3>5.1 Struktur</h3>
+        <ul>
+            <li><strong>20 Dimensionen</strong> (12 Kern- / 8 Lifestyle-Dimensionen)</li>
+            <li><strong>97 Items</strong> insgesamt</li>
+            <li><strong>Likert-Skala 1–10</strong></li>
+            <li>Jedes Item existiert in zwei Formulierungen: <em>textSelf</em> (Selbst-Einschätzung) und <em>textPartner</em> (Fremd-Einschätzung)</li>
+        </ul>
+
+        <h3>5.2 Kerndimensionen (hoch gewichtet)</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Dimension</th><th># Items</th><th>Primäres Modell</th></tr></thead>
+                <tbody>
+                    <tr><td>Lebensziele &amp; Vision</td><td>6</td><td>Big Five, Values</td></tr>
+                    <tr><td>Kinderwunsch</td><td>5</td><td>Values</td></tr>
+                    <tr><td>Konfliktstil</td><td>7</td><td>Big Five, Attachment</td></tr>
+                    <tr><td>Nähe vs. Unabhängigkeit</td><td>6</td><td>Attachment</td></tr>
+                    <tr><td>Grundwerte</td><td>6</td><td>Values</td></tr>
+                    <tr><td>Kommunikation</td><td>6</td><td>Big Five, Attachment</td></tr>
+                    <tr><td>Intimität &amp; Sexualität</td><td>5</td><td>Attachment, Values</td></tr>
+                    <tr><td>Geld &amp; Finanzen</td><td>6</td><td>Big Five, Values, Attachment</td></tr>
+                    <tr><td>Emotionale Verfügbarkeit</td><td>6</td><td>Attachment, Big Five</td></tr>
+                    <tr><td>Vertrauen &amp; Eifersucht</td><td>6</td><td>Attachment</td></tr>
+                    <tr><td>Persönliches Wachstum</td><td>6</td><td>Values</td></tr>
+                    <tr><td>Alltag &amp; Lebensstil</td><td>6</td><td>Big Five, Values</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>5.3 Lifestyle-Dimensionen (niedrig gewichtet)</h3>
+        <p>Familiäre Situation, Ordnung &amp; Sauberkeit, Ernährung, Sport &amp; Aktivität, Aussehen, Sozialleben, Haushaltsrollen, Digitale Gewohnheiten.</p>
+
+        <h3>5.4 Zusätzliche Kontextvariablen</h3>
+        <p>16 demografische und situative Kontextvariablen: Alter, Geschlecht, Beziehungsstatus/-phase, Kinderanzahl, selbsteingeschätzte Werte (Lebenszufriedenheit, Stress, Aktivität, Kinderwunsch etc.), Ernährungsform, Partner-Details.</p>
+        <p>Diese Kontextvariablen modulieren die Interpretation (z.B. triggern Prognosen bzgl. Kindern nur, wenn <code>desireForChildren &gt;= 6 AND !hasChildren</code>).</p>
+
+        <h3>5.5 „Wichtig"-Markierung</h3>
+        <p>Nutzer:innen können einzelne Fragen als <em>besonders wichtig</em> markieren. Dies führt zur <strong>Verdoppelung des Gewichts der entsprechenden Dimension im Gesamtscore</strong>.</p>
+
+        <!-- 6. ANALYSE-PIPELINE -->
+        <h2 id="s6" data-num="Abschnitt 6">Analyse-Pipeline</h2>
+
+        <h3>6.1 Kompatibilitätsscore (0–100)</h3>
+        <p><strong>Schritt 1 — Pro Dimension:</strong></p>
+        <pre><code>selfScore    = Mittelwert der Selbst-Antworten innerhalb der Dimension
+partnerScore = Mittelwert der Partner-Antworten innerhalb der Dimension
+difference   = |selfScore − partnerScore|        (Wertebereich 0–9)</code></pre>
+
+        <p><strong>Schritt 2 — Klassifikation:</strong></p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>difference</th><th>Level</th></tr></thead>
+                <tbody>
+                    <tr><td>0.0 – 1.5</td><td><strong>low</strong></td></tr>
+                    <tr><td>1.5 – 3.0</td><td><strong>moderate</strong></td></tr>
+                    <tr><td>3.0 – 4.5</td><td><strong>high</strong></td></tr>
+                    <tr><td>4.5 – 9.0</td><td><strong>critical</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><strong>Schritt 3 — Gewichtung:</strong></p>
+        <pre><code>base_weight   = 1.0 (core)   oder   0.3 (lifestyle)
+final_weight  = base_weight × 2.0  falls hasImportantQuestion
+              = base_weight         sonst</code></pre>
+
+        <p><strong>Schritt 4 &amp; 5 — Gesamt-Score:</strong></p>
+        <pre><code>weighted_avg_diff = Σ(difference × weight) / Σ(weight)
+overallScore      = clamp(0, 100, round((1 − weighted_avg_diff / 9.0) × 100))</code></pre>
+
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 6.1:</strong> Ist die Gewichtung Core × 1.0 vs. Lifestyle × 0.3 plausibel? Sollte die 2.0-Verdopplung bei „wichtig markiert" anders dimensioniert werden?
+        </div>
+        <div class="review-field">
+            <label for="feedback_6_1">Ihre Einschätzung zu Frage 6.1</label>
+            <textarea id="feedback_6_1" name="feedback_6_1" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <h3>6.2 Kategorien-Aufschlüsselung</h3>
+        <p>Die 20 Dimensionen werden zu <strong>4 thematischen Gruppen</strong> aggregiert: Werte &amp; Vision, Emotionale Verbindung, Kommunikation, Alltag &amp; Lebensstil. Pro Gruppe wird analog zum Gesamtscore der gewichtete Wert berechnet.</p>
+
+        <h3>6.3 Archetyp-Zuordnung</h3>
+        <p>11 vordefinierte <strong>Paararchetypen</strong>. Zuordnung folgt einer priority-based Entscheidungskaskade, primär nach Bindungsstil-Kombinationen:</p>
+        <pre><code>IF attachment data available:
+  IF (anxious × avoidant)                → "Emotional &amp; Unabhängig"
+  IF (anxious × anxious)                 → "Zwei Flammen"
+  IF (avoidant × avoidant)               → "Gemeinsam still"
+  IF (secure × secure) AND avgDiff &lt; 1.5 → "Zwei Anker"
+  IF (secure × secure)                   → "Sanfte Stärke"
+  IF (secure × anxious)                  → "Erforscher &amp; Hafen"
+  IF either is disorganized              → "Feuer &amp; Erde"
+
+Fallback (ohne Attachment): nach avgDiff klassifizieren</code></pre>
+
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 6.3:</strong> Ist die Priorisierung „Bindungsstil &gt; Differenz" für die Archetyp-Zuordnung psychologisch sinnvoll? Fehlen Archetypen?
+        </div>
+        <div class="review-field">
+            <label for="feedback_6_3">Ihre Einschätzung zu Frage 6.3</label>
+            <textarea id="feedback_6_3" name="feedback_6_3" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <h3>6.4 Bindungstyp-Analyse (ECR-inspiriert)</h3>
+        <p>Die App operationalisiert die <strong>2D-Klassifikation</strong> (Anxiety × Avoidance) nach Bartholomew/Horowitz und Fraley.</p>
+
+        <h4>Anxiety-Score (0–10): gewichteter Mittelwert aus 7 Items</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Item</th><th>Gewicht</th></tr></thead>
+                <tbody>
+                    <tr><td>closenessIndependence Q2 („so viel Zeit wie möglich zusammen")</td><td>1.0</td></tr>
+                    <tr><td>closenessIndependence Q4 („unwohl, wenn Partner zu viel ohne mich")</td><td>1.0</td></tr>
+                    <tr><td>closenessIndependence Q6 („gemeinsame Hobbys wichtiger")</td><td>0.7</td></tr>
+                    <tr><td>trustJealousy Q4 („fühle mich bedroht")</td><td>1.0</td></tr>
+                    <tr><td>trustJealousy Q6 („Angst, verlassen zu werden")</td><td>1.0</td></tr>
+                    <tr><td>communicationStyle Q4 („erwarte, dass Partner Bedürfnisse spürt")</td><td>0.8</td></tr>
+                    <tr><td>conflictStyle Q5 („sage Dinge, die ich bereue")</td><td>0.5</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>Avoidance-Score (0–10): gewichteter Mittelwert aus 8 Items</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Item</th><th>Gewicht</th><th>Richtung</th></tr></thead>
+                <tbody>
+                    <tr><td>closenessIndependence Q1 („brauche Zeit allein")</td><td>1.0</td><td>+</td></tr>
+                    <tr><td>closenessIndependence Q3 („eigene Freundschaften wichtig")</td><td>0.8</td><td>+</td></tr>
+                    <tr><td>closenessIndependence Q5 („kann gut allein sein")</td><td>0.5</td><td>+ (ambivalent)</td></tr>
+                    <tr><td>conflictStyle Q3 („brauche Abstand")</td><td>1.0</td><td>+</td></tr>
+                    <tr><td>emotionalAvailability Q1 („kann Gefühle zeigen")</td><td>1.0</td><td><strong>− invertiert</strong></td></tr>
+                    <tr><td>emotionalAvailability Q4 („zeige Verletzlichkeit")</td><td>1.0</td><td><strong>− invertiert</strong></td></tr>
+                    <tr><td>emotionalAvailability Q6 („schalte emotional ab")</td><td>1.0</td><td>+</td></tr>
+                    <tr><td>finances Q5 („getrennte Konten besser")</td><td>0.6</td><td>+</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>Klassifikation</h4>
+        <pre><code>anxietyHigh   = anxiety_score &gt; 5.5
+avoidanceHigh = avoidance_score &gt; 5.5
+
+(low,  low)   → SICHER
+(high, low)   → ÄNGSTLICH
+(low,  high)  → VERMEIDEND
+(high, high)  → DESORGANISIERT</code></pre>
+
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 6.4:</strong><br>
+            (a) Welche Items gehören korrekt zur Anxiety vs. Avoidance-Dimension? Sind einige fehlklassifiziert?<br>
+            (b) Ist der einheitliche Cutoff 5.5 sinnvoll, oder sollte er je nach Dimension differenziert werden?<br>
+            (c) Die Item-Gewichte (0.5 / 0.7 / 0.8 / 1.0) sind heuristisch gesetzt — welche empirische Basis wäre dafür geeignet?
+        </div>
+        <div class="review-field">
+            <label for="feedback_6_4">Ihre Einschätzung zu Frage 6.4 (a/b/c)</label>
+            <textarea id="feedback_6_4" name="feedback_6_4" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <h3>6.5 Liebessprachen-Analyse (Chapman)</h3>
+        <p>5 Kategorien (<em>Worte</em>, <em>Zweisamkeit</em>, <em>Körperliche Berührung</em>, <em>Hilfsbereitschaft</em>, <em>Geschenke</em>) werden aus spezifischen Items aggregiert. Höchste Sprache = <strong>Primary</strong>, zweithöchste = <strong>Secondary</strong>. Deterministischer Tie-Breaker bei gleichen Scores.</p>
+
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 6.5:</strong> Chapmans Modell ist populärwissenschaftlich, aber nicht stark validiert. Sollte die App dies transparenter kommunizieren? Welche Items wären für eine Liebessprachen-Zuordnung besser geeignet?
+        </div>
+        <div class="review-field">
+            <label for="feedback_6_5">Ihre Einschätzung zu Frage 6.5</label>
+            <textarea id="feedback_6_5" name="feedback_6_5" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <h3>6.6 Composite Insights (12 Detektoren)</h3>
+        <p>Regelbasierte Detektoren erkennen psychologisch relevante Muster-Kombinationen aus mehreren Dimensionen.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>#</th><th>Detektor</th><th>Kern-Trigger</th><th>Modell</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>AttachmentDynamics</td><td>Spezifische Bindungsstil-Kombinationen</td><td>Hazan &amp; Shaver; Johnson (EFT)</td></tr>
+                    <tr><td>2</td><td>CommunicationBreakdown</td><td>Konfliktstil OR Kommunikation in critical-Level</td><td>Gottman „Four Horsemen"</td></tr>
+                    <tr><td>3</td><td>PerceptionGap</td><td>≥ 3 Dimensionen mit Gap &gt; 3.5</td><td>Pronin „Self-Other Asymmetry"</td></tr>
+                    <tr><td>4</td><td>ValueMisalignment</td><td>coreValues-Differenz &gt; 3</td><td>Schwartz; Gottman „Shared Meaning"</td></tr>
+                    <tr><td>5</td><td>ChildrenConflict</td><td>children-Differenz &gt; 3 AND desire &gt; 5</td><td>Schwartz</td></tr>
+                    <tr><td>6</td><td>StressEmotionalPattern</td><td>context.stress &gt; 7 AND emotionalAvailability &gt; 3</td><td>Gottman; Porges</td></tr>
+                    <tr><td>7</td><td>IntimacyMismatch</td><td>intimacy &gt; 3</td><td>Perel; Gottman</td></tr>
+                    <tr><td>8</td><td>StructureChaos</td><td>dailyLifestyle &gt; 3</td><td>Big Five Conscientiousness</td></tr>
+                    <tr><td>9</td><td>HiddenPatterns</td><td>Subtile Muster (Mental Load, Emotional Carrier)</td><td>EFT; Mental-Load-Forschung</td></tr>
+                    <tr><td>10</td><td>LifestyleEmotionalMismatch</td><td>Alltag × Emotion Gap</td><td>Gottman Stability Research</td></tr>
+                    <tr><td>11</td><td>Strengths</td><td>Mehrere Dimensionen in <em>low</em>-Bereich</td><td>Gottman „5:1 Magic Ratio"</td></tr>
+                    <tr><td>12</td><td>PartnerBasics</td><td>Grunddaten-Mismatch</td><td>Paarforschungs-Demografie</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Jeder Insight enthält: Titel, Kurzbeschreibung, <em>deepAnalysis</em> (300–500 Wörter), <em>dailyImpact</em>, 3–5 <em>reflectionQuestions</em>, 2–3 <em>dataPoints</em> (Transparenz-Anker), <em>primaryModel</em>, <em>modelContext</em>, <em>confidenceScore</em> (0.0–1.0, heuristisch), <em>severity</em>. Sortierung: <code>severity.weight × confidenceScore</code>, max. 8 Insights.</p>
+
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 6.6:</strong><br>
+            (a) Sind die 12 Detektoren gut gewählt — fehlen relevante Muster (z.B. Triangulation, Projektion, Codependenz)?<br>
+            (b) Trigger-Schwellenwerte: Cutoff 3.0 / 3.5 — angemessen?<br>
+            (c) Stigmatisierungsrisiko: sind die Insights-Texte für Nutzer:innen in prekären Zuständen angemessen formuliert?
+        </div>
+        <div class="review-field">
+            <label for="feedback_6_6">Ihre Einschätzung zu Frage 6.6 (a/b/c)</label>
+            <textarea id="feedback_6_6" name="feedback_6_6" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <h3>6.7 Prognose-Generierung (3 Predictions)</h3>
+        <pre><code>1. Nur Core-Dimensionen betrachten
+2. Sortieren nach Differenz (absteigend)
+3. 1. Prognose   = prediction(sortedByGap[0].dimension)
+4. Wenn desireForChildren ≥ 6 AND !hasChildren:
+      2. Prognose = spezifische Kinder-Prognose
+   ELSE:
+      2. Prognose = prediction(sortedByGap[1].dimension)
+5. Wenn ≥ 3 Gaps &amp; 3. nicht abgedeckt:
+      3. Prognose = prediction(sortedByGap[2].dimension)
+6. Fallback: longTermGrowthPrediction</code></pre>
+        <p><strong>Modellbezug:</strong> Prognose-Logik basiert auf der <strong>statistischen Extrapolation dokumentierter Risikomuster</strong> — sie ist <em>keine individuelle Wahrscheinlichkeitsaussage</em>, sondern <em>eine narrative Projektion</em>.</p>
+
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 6.7:</strong><br>
+            (a) Ist das <em>narrative Projektion</em>-Framing ethisch hinreichend klar?<br>
+            (b) Sollten Prognosen bei vermuteter Krise (z.B. extrem niedrigem overallScore) zusätzlich einen therapeutischen Verweis aktivieren?
+        </div>
+        <div class="review-field">
+            <label for="feedback_6_7">Ihre Einschätzung zu Frage 6.7 (a/b)</label>
+            <textarea id="feedback_6_7" name="feedback_6_7" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <h3>6.8 Premium Resolution (4 ausführliche Resolutions)</h3>
+        <ol>
+            <li><strong>Tension-Resolution:</strong> Größtes Spannungsfeld + tiefe Analyse + konkrete Lösungsschritte</li>
+            <li><strong>Konfliktmuster-Resolution:</strong> Konfliktdynamik mit Gottman/EFT-Bezug</li>
+            <li><strong>Emotional Labor Resolution:</strong> Identifiziert wer emotional trägt (gewichtete Summe aus emotionalAvailability + communicationStyle)</li>
+            <li><strong>Hidden Wants Resolution:</strong> Liebessprachen-Mismatch mit Übungsvorschlägen</li>
+        </ol>
+
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 6.8:</strong> Bei Emotional Labor sind die Item-Gewichte (jeweils 1.0 für Emotional Availability und Communication) heuristisch. Fundierte Gewichtung?
+        </div>
+        <div class="review-field">
+            <label for="feedback_6_8">Ihre Einschätzung zu Frage 6.8</label>
+            <textarea id="feedback_6_8" name="feedback_6_8" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <!-- 7. OUTPUT -->
+        <h2 id="s7" data-num="Abschnitt 7">Output und Personalisierung</h2>
+        <h3>7.1 Personalisierungs-Pipeline</h3>
+        <p>Alle generierten Texte durchlaufen <code>String.personalize(partnerName:, partnerGender:, ownGender:)</code>:</p>
+        <ol>
+            <li><strong>Namen-Substitution</strong> (inkl. korrekter Genitiv-Apostroph-Regel bei s/ß/x/z-Endungen)</li>
+            <li><strong>Rollen-Rendering:</strong> <code>der*die andere</code> → „die andere Person" (grammatisch feminin durch „Person"); <code>einer</code> bleibt generisch maskulin</li>
+            <li><strong>Pronomen-Substitution:</strong> folgt entweder <code>partnerGender</code> oder grammatischem Genus</li>
+        </ol>
+
+        <h3>7.2 Darstellung (Free vs. Premium)</h3>
+        <p><strong>Free:</strong> Score + Archetyp + 1 Stärke + 2 Spannungsfelder (Teaser) + 5 gesperrte Insights als Titel-Teaser.<br>
+        <strong>Premium:</strong> Alle 12 Insights (soweit getriggert), 4 Resolutions, 3 Prognosen mit Evidence-Anker, volle Bindungstyp-Analyse mit 2D-Map, volle Liebessprachen-Analyse, detaillierte Aufschlüsselung aller 20 Dimensionen, Review-Modus.</p>
+
+        <!-- 8. LIMITATIONEN -->
+        <h2 id="s8" data-num="Abschnitt 8">Bekannte Limitationen</h2>
+
+        <h3>8.1 Psychometrische Limitationen</h3>
+        <ul>
+            <li><strong>Keine durchgeführte Validierung:</strong> Weder Faktorenanalyse noch Reliabilitätsprüfung (Cronbachs α) der selbst konstruierten Skalen.</li>
+            <li><strong>Selbst-konstruierte Items:</strong> Basieren auf Literatur, nicht durch Expert:innen-Review oder Cognitive-Interviewing geprüft.</li>
+            <li><strong>Keine Norm-Stichprobe:</strong> Schwellenwerte sind heuristisch abgeleitet.</li>
+        </ul>
+
+        <h3>8.2 Methodische Limitationen</h3>
+        <ul>
+            <li><strong>Single-Device-Setup (V1):</strong> Beide Partner beantworten am selben Gerät. Soziale Erwünschtheits-Effekte möglich.</li>
+            <li><strong>Kein Retest</strong>, keine Stabilitäts-Messung.</li>
+            <li><strong>Keine Kontrollgruppe.</strong></li>
+        </ul>
+
+        <h3>8.3 Ethische und klinische Limitationen</h3>
+        <ul>
+            <li><strong>Kein Ersatz für Paartherapie.</strong></li>
+            <li><strong>Kein Screening für Krisen:</strong> Die App erkennt keine Suizidalität, Gewalt in Beziehungen oder andere akute Risiken. Eine Krisen-Fallback-Routine ist noch nicht implementiert.</li>
+            <li><strong>Kulturelle Einseitigkeit:</strong> Items und Konstrukte orientieren sich stark an westlichen, individualistischen Paar-Modellen.</li>
+        </ul>
+
+        <h3>8.4 Sprachliche Limitationen</h3>
+        <ul>
+            <li>Nur deutschsprachig (V1).</li>
+            <li>Inklusive Sprache: Rollen-System ist grammatisch korrekt, aber bleibt zweigeschlechtlich im Ausdruck.</li>
+        </ul>
+
+        <!-- 9. FRAGEN -->
+        <h2 id="s9" data-num="Abschnitt 9">Konkrete Fragen an die Gutachter:innen</h2>
+
+        <h3>Priorität 1 — Inhaltliche Validität</h3>
+        <ol>
+            <li><strong>Item-Mapping:</strong> Sind die einzelnen Items der jeweils beanspruchten Dimension zugeordnet? Liegt erkennbares „Construct-Drift" vor?</li>
+            <li><strong>Anxiety-/Avoidance-Operationalisierung:</strong> Sind die 7+8 Items eine sinnvolle Approximation der ECR-Dimensionen?</li>
+            <li><strong>Archetyp-Texte:</strong> Fachlich korrekt, frei von pathologisierenden Framings, für Laien verständlich?</li>
+            <li><strong>Insight-Texte:</strong> Fachlich belastbar? Einzelne Aussagen zu stark, zu vage, ethisch problematisch?</li>
+        </ol>
+        <div class="review-field">
+            <label for="feedback_p1">Ihre Einschätzung zu Priorität 1 (Inhaltliche Validität)</label>
+            <textarea id="feedback_p1" name="feedback_p1" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <h3>Priorität 2 — Kalibrierung</h3>
+        <ol start="5">
+            <li><strong>Schwellenwerte</strong> für ConflictLevel (1.5 / 3.0 / 4.5) und Anxiety/Avoidance (5.5) — empirisch vertretbar, oder ad-hoc?</li>
+            <li><strong>Gewichtungen</strong> in Aggregationen (Core 1.0, Lifestyle 0.3, important ×2) — empirisch fundiert?</li>
+        </ol>
+        <div class="review-field">
+            <label for="feedback_p2">Ihre Einschätzung zu Priorität 2 (Kalibrierung)</label>
+            <textarea id="feedback_p2" name="feedback_p2" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <h3>Priorität 3 — Ethik und Sicherheit</h3>
+        <ol start="7">
+            <li><strong>Krisen-Handling:</strong> Sollte die App eine Mindest-Fallback-Routine implementieren (z.B. Hinweis auf Paartherapie-Verbände bei niedrigem overallScore)?</li>
+            <li><strong>Stigmatisierungsrisiko:</strong> Welche Textbausteine könnten Nutzer:innen in problematische Selbstbilder drängen?</li>
+            <li><strong>Diversität:</strong> Welche Beziehungsmodelle (Polyamory, queere Dynamiken, Langstrecken/Patchwork) werden aktuell unterrepräsentiert?</li>
+        </ol>
+        <div class="review-field">
+            <label for="feedback_p3">Ihre Einschätzung zu Priorität 3 (Ethik und Sicherheit)</label>
+            <textarea id="feedback_p3" name="feedback_p3" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <h3>Priorität 4 — Produktstrategie</h3>
+        <ol start="10">
+            <li><strong>Validierungspfad:</strong> Empfehlung zu schrittweiser Validierung (welche Skalen zuerst faktoriell prüfen, Norm-Stichprobe sinnvoll)?</li>
+            <li><strong>Modellintegration:</strong> Lohnt die perspektivische Integration eines validierten Instruments (ECR-RS, RELATE, PREPARE) als Kalibrierungs-Referenz?</li>
+        </ol>
+        <div class="review-field">
+            <label for="feedback_p4">Ihre Einschätzung zu Priorität 4 (Produktstrategie)</label>
+            <textarea id="feedback_p4" name="feedback_p4" placeholder="Ihre Antwort …"></textarea>
+        </div>
+
+        <!-- 10. REFERENZEN -->
+        <h2 id="s10" data-num="Abschnitt 10">Anhang: Referenzen</h2>
+        <h3>Paarforschung und Klinische Psychologie</h3>
+        <ul>
+            <li>Ainsworth, M. D. S. et al. (1978). <em>Patterns of attachment.</em> Lawrence Erlbaum.</li>
+            <li>Bartholomew, K. &amp; Horowitz, L. M. (1991). <em>Attachment styles among young adults.</em> JPSP, 61.</li>
+            <li>Bowlby, J. (1969). <em>Attachment and Loss, Vol. 1.</em> Basic Books.</li>
+            <li>Fraley, R. C. &amp; Shaver, P. R. (2000). <em>Adult romantic attachment.</em> Review of General Psychology, 4.</li>
+            <li>Gottman, J. M. &amp; Silver, N. (1999). <em>The Seven Principles for Making Marriage Work.</em></li>
+            <li>Gottman, J. M. (2011). <em>The Science of Trust.</em> W. W. Norton.</li>
+            <li>Hazan, C. &amp; Shaver, P. (1987). <em>Romantic love conceptualized as an attachment process.</em> JPSP, 52.</li>
+            <li>Hendrix, H. (1988). <em>Getting the Love You Want.</em></li>
+            <li>Johnson, S. M. (2008). <em>Hold Me Tight.</em></li>
+            <li>Perel, E. (2006). <em>Mating in Captivity.</em></li>
+            <li>Porges, S. W. (2011). <em>The Polyvagal Theory.</em></li>
+        </ul>
+        <h3>Persönlichkeits- und Werteforschung</h3>
+        <ul>
+            <li>Chapman, G. (1992). <em>The Five Love Languages.</em></li>
+            <li>Costa, P. T. &amp; McCrae, R. R. (1992). <em>Revised NEO Personality Inventory.</em></li>
+            <li>Rokeach, M. (1973). <em>The Nature of Human Values.</em></li>
+            <li>Schwartz, S. H. (1992, 2012). Wertetheorie.</li>
+        </ul>
+        <h3>Sozialpsychologie</h3>
+        <ul>
+            <li>Pronin, E. (2008). <em>How we see ourselves and how we see others.</em> Science, 320.</li>
+            <li>Schwartz, R. C. (1997). <em>Internal Family Systems Therapy.</em></li>
+        </ul>
+
+        <!-- General Comments -->
+        <h2 data-num="Abschnitt 11">Allgemeine Anmerkungen</h2>
+        <p>Falls Sie Beobachtungen, Hinweise oder Empfehlungen haben, die in keinen der vorherigen Abschnitte passen, nutzen Sie gerne das folgende freie Textfeld.</p>
+        <div class="review-field">
+            <label for="feedback_general">Allgemeine Kommentare, Empfehlungen, offene Hinweise</label>
+            <textarea id="feedback_general" name="feedback_general" style="min-height: 120px;" placeholder="Ihre allgemeinen Anmerkungen …"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <section class="submit-section">
+            <h3>Feedback übermitteln</h3>
+            <p>Vielen Dank für Ihre Zeit und Expertise. Mit dem Absenden wird Ihr ausgefülltes Feedback mit Ihrem Namen als Signatur an die FJP Brands GmbH übermittelt.</p>
+            <div id="errorBanner" class="error-banner"></div>
+            <button type="submit" class="submit-button" id="submitButton">Feedback absenden</button>
+            <div class="autosave-note">Ihre Eingaben werden automatisch in Ihrem Browser zwischengespeichert — Sie können diese Seite zwischendurch verlassen, ohne Daten zu verlieren.</div>
+        </section>
+
+    </form>
+
+    <!-- Success Screen -->
+    <div id="successScreen" class="success-screen">
+        <div class="success-icon">✓</div>
+        <h3>Vielen Dank</h3>
+        <p>Ihr Feedback wurde erfolgreich übermittelt und ist bei der FJP Brands GmbH eingegangen. Wir werden Ihre Rückmeldungen sorgfältig prüfen und ggf. per E-Mail auf Sie zurückkommen.</p>
+        <p>Sie können diese Seite jetzt schließen.</p>
+    </div>
+
+    <footer class="footer">
+        <p><strong>Hinweis zur Transparenz:</strong> Dieses Whitepaper beschreibt den Stand April 2026. Die konkrete Implementierung (Quellcode) kann auf Anfrage zur Einsicht bereitgestellt werden.</p>
+        <p style="margin-top: 24px;">FJP Brands GmbH · Schulstraße 22 · 48149 Münster · <a href="mailto:info@fjpbrands.com">info@fjpbrands.com</a></p>
+    </footer>
+
+</div>
+
+<script>
+    // Auto-save to localStorage
+    const STORAGE_KEY = 'fjp_whitepaper_draft';
+    const form = document.getElementById('reviewForm');
+    const allFields = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
+
+    // Restore from localStorage on load
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            const data = JSON.parse(saved);
+            allFields.forEach(field => {
+                if (data[field.name]) field.value = data[field.name];
+            });
+        }
+    } catch (e) { /* ignore */ }
+
+    // Save on every change
+    let saveTimer;
+    allFields.forEach(field => {
+        field.addEventListener('input', () => {
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => {
+                const data = {};
+                allFields.forEach(f => { data[f.name] = f.value; });
+                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+                catch (e) { /* ignore */ }
+            }, 400);
+        });
+    });
+
+    // Submit handler — AJAX to Netlify, then show success
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const button = document.getElementById('submitButton');
+        const errorBanner = document.getElementById('errorBanner');
+        errorBanner.classList.remove('visible');
+
+        const nameField = document.getElementById('reviewer_name');
+        if (!nameField.value.trim()) {
+            errorBanner.textContent = 'Bitte geben Sie Ihren Namen ein.';
+            errorBanner.classList.add('visible');
+            nameField.focus();
+            return;
+        }
+
+        button.disabled = true;
+        button.textContent = 'Wird übermittelt …';
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(formData).toString()
+            });
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            // Success: hide form, show success screen, clear localStorage
+            form.style.display = 'none';
+            document.getElementById('successScreen').classList.add('visible');
+            localStorage.removeItem(STORAGE_KEY);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (err) {
+            errorBanner.textContent = 'Beim Übermitteln ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder senden Sie Ihr Feedback per E-Mail an info@fjpbrands.com.';
+            errorBanner.classList.add('visible');
+            button.disabled = false;
+            button.textContent = 'Feedback absenden';
+        }
+    });
+</script>
+
+</body>
+</html>
