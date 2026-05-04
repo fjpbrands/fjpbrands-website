@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reality Check — White Paper zur fachlichen Prüfung</title>
-    <meta name="description" content="White Paper zur Algorithmik, Modellbezug und Auswertungslogik der App Reality Check — Relationships.">
+    <meta name="description" content="White Paper zur Algorithmik, Modellbezug und Auswertungslogik der App Reality Check — Beziehungen.">
     <meta name="robots" content="noindex, nofollow">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -348,7 +348,8 @@
                 <strong>Herausgeber:</strong> FJP Brands GmbH · Schulstraße 22 · 48149 Münster<br>
                 <strong>Kontakt:</strong> <a href="mailto:info@fjpbrands.com">info@fjpbrands.com</a><br>
                 <strong>Autor:</strong> Friedemann Roumiantsev (Produktverantwortlich, Programmierung)<br>
-                <strong>Version:</strong> 1.0 · Stand April 2026
+                <strong>Version:</strong> 2.0 · Stand Mai 2026<br>
+                <strong>Änderungen ggü. 1.0:</strong> Vollständige Dokumentation des Retention-Moduls „Monatliche Reflexion" (Abschnitt 8) inkl. KPI-System mit Quellen, Tiefenfragen-Pool, kritische Themen, Couples-Karten-Ritual, SWOT-Auswertung, Trend-Analyse und iCloud-Sync.
             </div>
         </header>
 
@@ -379,18 +380,19 @@
                 <li><a href="#s5">Messinstrument: Fragenkatalog</a></li>
                 <li><a href="#s6">Analyse-Pipeline</a></li>
                 <li><a href="#s7">Output und Personalisierung</a></li>
-                <li><a href="#s8">Bekannte Limitationen</a></li>
-                <li><a href="#s9">Konkrete Fragen an die Gutachter:innen</a></li>
-                <li><a href="#s10">Anhang: Referenzen</a></li>
+                <li><a href="#s8">Retention-Modul: Monatliche Reflexion</a></li>
+                <li><a href="#s9">Bekannte Limitationen</a></li>
+                <li><a href="#s10">Konkrete Fragen an die Gutachter:innen</a></li>
+                <li><a href="#s11">Anhang: Referenzen</a></li>
             </ol>
         </nav>
 
         <!-- 1. EXECUTIVE SUMMARY -->
         <h2 id="s1" data-num="Abschnitt 1">Executive Summary</h2>
-        <p><strong>Reality Check — Relationships</strong> ist eine iOS-Anwendung für paardiagnostische Selbstreflexion. Das Tool kombiniert einen 97-Fragen-Katalog mit einer mehrstufigen Analyse-Pipeline, die auf etablierten Modellen der Persönlichkeits-, Bindungs- und Paarforschung aufbaut.</p>
-        <p>Das Kernversprechen an Nutzer:innen ist <strong>nicht klinische Diagnose</strong>, sondern <strong>strukturierte Selbstreflexion</strong> auf Basis wissenschaftlich fundierter Konstrukte. Die App verarbeitet Daten ausschließlich lokal (keine Server, keine Übertragung).</p>
+        <p><strong>Reality Check — Beziehungen</strong> ist eine iOS-Anwendung für paardiagnostische Selbstreflexion mit zwei Bausteinen: einer einmaligen Hauptanalyse (Fragenkatalog + Auswertung) und einem laufenden Retention-Modul für monatliche Reflexionen. Das Tool kombiniert einen 97-Fragen-Katalog mit einer mehrstufigen Analyse-Pipeline, die auf etablierten Modellen der Persönlichkeits-, Bindungs- und Paarforschung aufbaut, und ergänzt diese um eine wiederkehrende Reflexion auf Basis sieben validierter Paardiagnostik-Skalen.</p>
+        <p>Das Kernversprechen an Nutzer:innen ist <strong>nicht klinische Diagnose</strong>, sondern <strong>strukturierte Selbstreflexion</strong> auf Basis wissenschaftlich fundierter Konstrukte. Die App verarbeitet Daten ausschließlich lokal auf dem Gerät — optional zwischen Geräten der gleichen Apple-ID via iCloud Key-Value-Storage (Apple-verschlüsselt). Es findet keine Übertragung an Server der FJP Brands GmbH statt.</p>
 
-        <h3>Methodische Eckdaten</h3>
+        <h3>Methodische Eckdaten — Hauptanalyse</h3>
         <ul>
             <li><strong>20 inhaltliche Dimensionen</strong> (12 Kerndimensionen + 8 Lifestyle-Dimensionen)</li>
             <li><strong>97 Einzelfragen</strong> auf 10-stufiger Likert-Skala, jeweils in Selbst- und Fremdeinschätzung</li>
@@ -400,6 +402,19 @@
             <li><strong>5-Kategorien-Love-Language-Profil</strong> (nach Chapman)</li>
             <li><strong>12 regelbasierte Composite-Insight-Detektoren</strong></li>
             <li><strong>3 personalisierte Prognosen</strong> pro Nutzerpaar</li>
+        </ul>
+
+        <h3>Methodische Eckdaten — Retention-Modul (V2.0)</h3>
+        <ul>
+            <li><strong>7 KPI-Dimensionen</strong>, jede aus etablierten Skalen abgeleitet (Funk &amp; Rogge CSI, Aron IOS, Rempel Trust Scale, Gottman Konflikt-Indikator, Rusbult Investment Model, Schaefer &amp; Olson PAIR, Wood Authenticity)</li>
+            <li><strong>2 Reflexions-Modi:</strong> „Mein Blick" (Solo-Selbstreflexion) und „Unser Blick" (sequenzielle Couples-Reflexion am gleichen Gerät)</li>
+            <li><strong>Tiefenfragen-Pool 8 Items</strong>, rotierend 3 pro Reflexion, fließen gewichtet in die KPI-Scores</li>
+            <li><strong>Themes-Pool 14 Items</strong>, rotierend 3 pro Reflexion, eigenes Score-Tracking</li>
+            <li><strong>Optionale kritische Themen 8 Items</strong> (Trennungsgedanken, Grenzverletzungen u.a.), rotierend 2 pro Reflexion, Solo-only mit Onboarding-Opt-in, eigener Sub-Score „Belastungs-Indikator"</li>
+            <li><strong>Couples-Karten-Ritual:</strong> 14er-Pool mit positiv-zelebrierender Framing-Heuristik, rotierend 4 pro Reflexion</li>
+            <li><strong>SWOT-Auswertung</strong> mit warmem Framing („Was uns trägt" / „Wo wir wachsen können" / „Wo es knirscht" / „Wo wir wachsam sein sollten")</li>
+            <li><strong>Cross-Mapping</strong> aller Reflexions-KPIs gegen Hauptkatalog-Baseline (Δ ggü. Erstanalyse)</li>
+            <li><strong>Trend-Analyse</strong> mit KPI-Sparklines, gruppiert in „Verbindung" und „Fundament", 3M/12M/Alle-Zeitfenster-Filter, separater Belastungs-Pegel</li>
         </ul>
 
         <div class="callout callout-info">
@@ -424,12 +439,14 @@
         <p>Paare im Alter 20–45, die Interesse an einer strukturierten Selbstreflexion ihrer Beziehungsdynamik haben. <strong>Kein therapeutischer Anspruch:</strong> Die App positioniert sich als Reflexions- und Gesprächswerkzeug, nicht als Diagnostik.</p>
 
         <h3>3.2 Anwendungsszenario</h3>
-        <p>Die App wird von <strong>einer Person auf einem Gerät</strong> genutzt (eine Cloud-Sync-Funktion für zwei Geräte ist zukünftig geplant). Beide Partner beantworten:</p>
+        <p>Die App wird primär von <strong>einer Person auf einem Gerät</strong> genutzt; im Couples-Modus reflektieren beide Partner sequenziell am gleichen Gerät. Reflexionen werden über <code>NSUbiquitousKeyValueStore</code> zwischen Geräten der gleichen Apple-ID synchronisiert (Apple-verschlüsselt, ohne Server der FJP Brands GmbH).</p>
+        <p>Im Hauptkatalog beantworten beide Partner:</p>
         <ul>
             <li><strong>Selbst-Assessment (Self):</strong> Aussagen über sich selbst („Ich spreche Probleme direkt an.")</li>
             <li><strong>Partner-Assessment:</strong> dieselben Konzepte aus Perspektive des anderen („Mein:e Partner:in spricht Probleme direkt an.")</li>
         </ul>
         <p>Pro Konzept entstehen so <strong>vier Messpunkte</strong>: Lenas Selbst-Einschätzung + Markus' Fremd-Einschätzung von Lena (sowie umgekehrt). Die App vergleicht primär die Differenz <strong>zwischen Selbstbild und Fremdbild</strong>, orientiert an der Self-/Spouse-Report-Methodik der Paardiagnostik.</p>
+        <p>Im Retention-Modul reflektiert jede Person zu sieben standardisierten KPIs auf 1–10-Likert-Skala — wahlweise allein („Mein Blick") oder mit dem Gegenüber sequenziell („Unser Blick"). Die Aggregation erfolgt im Couples-Modus über den Mittelwert beider Antworten pro KPI; die individuellen Antworten bleiben jeweils im eigenen Snapshot mit <code>perspective</code>-Attribut erhalten.</p>
 
         <h3>3.3 Abgrenzung</h3>
         <ul>
@@ -724,8 +741,117 @@ avoidanceHigh = avoidance_score &gt; 5.5
         <p><strong>Free:</strong> Score + Archetyp + 1 Stärke + 2 Spannungsfelder (Teaser) + 5 gesperrte Insights als Titel-Teaser.<br>
         <strong>Premium:</strong> Alle 12 Insights (soweit getriggert), 4 Resolutions, 3 Prognosen mit Evidence-Anker, volle Bindungstyp-Analyse mit 2D-Map, volle Liebessprachen-Analyse, detaillierte Aufschlüsselung aller 20 Dimensionen, Review-Modus.</p>
 
-        <!-- 8. LIMITATIONEN -->
-        <h2 id="s8" data-num="Abschnitt 8">Bekannte Limitationen</h2>
+        <!-- 8. RETENTION-MODUL -->
+        <h2 id="s8" data-num="Abschnitt 8">Retention-Modul: Monatliche Reflexion</h2>
+        <p>Das Retention-Modul ergänzt die einmalige Hauptanalyse um eine wiederkehrende Selbstreflexion. Ziel: einen niederschwelligen, wissenschaftlich fundierten Mechanismus zu schaffen, mit dem Paare ihre Beziehung über Zeit beobachten — unabhängig von akuten Anlässen.</p>
+
+        <h3>8.1 Konzept und Modi</h3>
+        <p>Pro Reflexion wählen Nutzer:innen zwischen zwei Modi:</p>
+        <ul>
+            <li><strong>Mein Blick (Solo):</strong> Eine Person reflektiert für sich allein. Nur diese Perspektive wird gespeichert. Sensible Themen (siehe 8.5) sind ausschließlich in diesem Modus aktivierbar.</li>
+            <li><strong>Unser Blick (Couples):</strong> Beide Partner reflektieren sequenziell am gleichen Gerät. Jede:r beantwortet identisch denselben Fragenkatalog (KPI-Items + rotierende Tiefen-/Theme-Fragen), gefolgt von einem gemeinsamen Karten-Ritual (siehe 8.6). Snapshots beider Perspektiven werden via gemeinsamer <code>pairId</code> verknüpft, KPI-Aggregation durch arithmetisches Mittel beider Antworten.</li>
+        </ul>
+        <p>Die Frequenz ist konfigurierbar (4, 6, 8, 10 oder 12 Wochen, Default 4); Apple-lokale Push-Erinnerungen via <code>UNUserNotificationCenter</code>.</p>
+
+        <h3>8.2 KPI-System</h3>
+        <p>Sieben KPIs decken die zentralen Dimensionen wissenschaftlich etablierter Paardiagnostik-Skalen ab. Jeder KPI ist 1:1 einer publizierten Skala zugeordnet, jedoch — vergleichbar zum Hauptkatalog — über eigene Items operationalisiert (keine 1:1-Item-Übernahme).</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>KPI</th><th>Quell-Skala</th><th>Items in App (V2.0)</th><th>Cross-Mapping zum Hauptkatalog</th></tr></thead>
+                <tbody>
+                    <tr><td>Beziehungszufriedenheit</td><td>Couples Satisfaction Index, Funk &amp; Rogge (2007)</td><td>2 Standard + 1 Tiefenitem</td><td>Core-Dimensionen-Aggregat</td></tr>
+                    <tr><td>Verbundenheit</td><td>Inclusion of Other in Self, Aron et al. (1992)</td><td>1 Standard + 1 Tiefenitem</td><td>Nähe vs. Unabhängigkeit, Emotionale Verfügbarkeit</td></tr>
+                    <tr><td>Vertrauen</td><td>Trust Scale, Rempel et al. (1985)</td><td>2 Standard + 1 Tiefenitem</td><td>Vertrauen &amp; Eifersucht, Kommunikation</td></tr>
+                    <tr><td>Konflikt-Klima (invertiert)</td><td>Gottman Sound Relationship House — Conflict, Gottman (1999)</td><td>2 Standard + 1 Tiefenitem</td><td>Konfliktstil</td></tr>
+                    <tr><td>Gemeinsame Vision</td><td>Investment Model, Rusbult et al. (1998)</td><td>1 Standard + 1 Tiefenitem (Solo-only)</td><td>Lebensziele &amp; Vision, Grundwerte, Kinderwunsch</td></tr>
+                    <tr><td>Emotionale &amp; körperliche Nähe</td><td>PAIR Inventory, Schaefer &amp; Olson (1981)</td><td>1–2 Standard + 2 Tiefenitems</td><td>Intimität &amp; Sexualität, Emotionale Verfügbarkeit</td></tr>
+                    <tr><td>Authentizität</td><td>Authenticity in Relationships, Wood et al. (2008)</td><td>1 Standard + 1 Tiefenitem</td><td>Kommunikation, Grundwerte</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>In der Auswertung werden die 7 KPIs in zwei Sub-Sektionen visuell gruppiert:</p>
+        <ul>
+            <li><strong>Verbindung</strong> (was zwischen den Partnern lebt): Beziehungszufriedenheit, Verbundenheit, Nähe, Authentizität</li>
+            <li><strong>Fundament</strong> (was die Beziehung trägt): Vertrauen, Konflikt-Klima, Gemeinsame Vision</li>
+        </ul>
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 8.2:</strong> Sind die 7 KPIs methodisch ausgewogen? Fehlen zentrale Dimensionen (z.B. „Sexual Satisfaction" als eigene Skala statt Sub-Item, „Power/Equity" nach Sprecher)? Sind die Quell-Skalen für ein <em>monatliches</em> Self-Report-Format geeignet — oder gibt es kürzere validierte Alternativen (z.B. CSI-4 oder QMI)?
+        </div>
+        <div class="review-field">
+            <label>Antwort zu 8.2 — KPI-Auswahl</label>
+            <textarea name="feedback_8_2" rows="3" placeholder="Ihre Einschätzung zur KPI-Auswahl …"></textarea>
+        </div>
+
+        <h3>8.3 Cross-Mapping zum Hauptkatalog (Baseline-Funktion)</h3>
+        <p>Aus den Hauptkatalog-Antworten wird beim ersten Reflexions-Aufruf eine <strong>Baseline pro KPI</strong> berechnet: Für jeden Reflexions-KPI sind ein bis drei Hauptkatalog-Dimensionen als Quellen definiert (siehe Tabelle 8.2). Der Baseline-Wert ist das Mittel über die Self- und Partner-Bewertungen dieser Dimensionen.</p>
+        <p>Bei jeder Reflexion wird der aktuelle KPI-Wert gegen die Baseline (Δ vs. Hauptanalyse) <em>und</em> gegen den letzten Reflexions-Wert (Δ vs. letzte Reflexion) verglichen. Die Trends werden in 7 Stufen klassifiziert (<code>stronglyImproved</code> bis <code>stronglyWorsened</code>) und in der Auswertung textlich aufgegriffen.</p>
+
+        <h3>8.4 Tiefenfragen-Pool und Themes-Pool</h3>
+        <p>Zusätzlich zu den fixen KPI-Standardfragen kommt pro Reflexion eine rotierende Auswahl aus zwei Pools:</p>
+        <ul>
+            <li><strong>Tiefenfragen-Pool (8 Items, jedem KPI zugeordnet):</strong> Pro Reflexion 3 von 8 nach Least-Recently-Used-Logik gewählt. Jede Tiefenfrage liefert einen Slider-Wert (fließt gleichgewichtig in den jeweiligen KPI-Score) und ein <em>optionales</em> Freitext-Feld (kein Score-Beitrag, wird im Snapshot persistiert und in der Auswertung angezeigt).</li>
+            <li><strong>Themes-Pool (14 Items, eigenständige thematische Sub-Tracks):</strong> Pro Reflexion 3 von 14 nach Least-Recently-Used. Themes sind unabhängig vom KPI-System und repräsentieren situative Felder wie Humor, Mental Load, Sicherheit, Geld, Sozialnetz, Mikro-Rituale, sowie sensible Sub-Themen wie Sehnsucht nach anderen oder verschwiegene Themen (jeweils mit invertierter Score-Logik). Themes mit „Sex-Item"-Flag erscheinen nur, wenn entsprechende Onboarding-Option aktiv.</li>
+        </ul>
+        <p>Im Couples-Modus werden zusätzlich drei Themes/Tiefenfragen, die im gemeinsamen Setting als zu intim klassifiziert wurden (z.B. „Welche Seite zeigst du gerade weniger als du gerne würdest?"), aus dem Pool herausgefiltert und nur im Solo-Modus angeboten.</p>
+
+        <h3>8.5 Sensible Inhalte und Belastungs-Indikator</h3>
+        <p>Als optionales, beim Onboarding aktivierbares Feature bietet die App acht <strong>kritische Reflexionsfragen</strong>: Trennungsgedanken (eigene), Grenzüberschreitungen (durch Partner / durch sich selbst), Anziehung außerhalb, emotionale Einsamkeit, schweigen-aus-Angst, Vorstellung „Leben ohne den Partner", körperlich-seelische Belastung. Diese Fragen sind <strong>ausschließlich im Solo-Modus</strong> verfügbar und mit einem <strong>opt-in-Default „Nein"</strong> beim ersten Reflexions-Start ausgestattet (invertiert zur Sex-Items-Logik, deren Default „Ja" ist — bewusste UX-Asymmetrie wegen unterschiedlichem Risikoprofil).</p>
+        <p>Die Items wurden bewusst kuratiert auf <em>„triggert tiefe Reflexion, ohne destruktive Projektion auf den Partner zu erzwingen"</em>. Bewusst weggelassen sind Fremdwahrnehmungs-Items (z.B. „Glaubst du, dein Partner denkt an Trennung?"), da diese in der Couples-Setting Eifersuchts- oder Verdachts-Spiralen auslösen können, die im Self-Report ungefiltert bleiben.</p>
+        <p>Pro Reflexion 2 von 8 nach LRU-Logik. Die kritischen Antworten fließen <strong>nicht</strong> in die 7 KPI-Scores ein, sondern in einen separaten <strong>Belastungs-Indikator</strong> (Mittelwert der Antworten, 1–10, höher = stabiler). Wenn ≥ 2 kritische Antworten unter 4/10 liegen, triggert die App in der Auswertung eine <strong>Soft-Care-Sektion</strong> mit Hinweisen auf Beratungsstellen (Pro Familia, BDP, Telefonseelsorge) und einem expliziten Disclaimer („Reality Check ist kein Therapie-Ersatz").</p>
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 8.5:</strong> Sind die acht kritischen Items in ihrer Formulierung unbedenklich für ein Self-Report-Setting ohne therapeutische Begleitung? Ist der Soft-Care-Trigger (≥ 2 Items &lt; 4/10) richtig kalibriert, oder zu unsensibel? Sollte die Onboarding-Frage zur Aktivierung zusätzliche Schutzformulierungen enthalten?
+        </div>
+        <div class="review-field">
+            <label>Antwort zu 8.5 — Sensible Inhalte</label>
+            <textarea name="feedback_8_5" rows="3" placeholder="Ihre Einschätzung zu den kritischen Items …"></textarea>
+        </div>
+
+        <h3>8.6 Couples-Karten-Ritual</h3>
+        <p>Im Couples-Modus folgt nach der KPI-/Theme-Phase ein gemeinsames Karten-Ritual ohne Score-Erfassung — reine Gesprächsanstöße, beide Partner antworten verbal nacheinander auf dieselbe Karte. Pool-Größe: 14 Karten, gegliedert in vier Kategorien:</p>
+        <ul>
+            <li><strong>Erinnern &amp; sich gesehen fühlen</strong> (4 Karten, z.B. „Welcher Moment hat dein Herz diesen Monat besonders zum Leuchten gebracht?")</li>
+            <li><strong>Sinnlichkeit &amp; Berührung</strong> (4 Karten, nur wenn Sex-Items aktiv)</li>
+            <li><strong>Wertschätzung &amp; ‚Wir'</strong> (3 Karten)</li>
+            <li><strong>Zukunft (zelebrierend)</strong> (3 Karten)</li>
+        </ul>
+        <p>Pro Reflexion werden 4 Karten nach LRU-Logik gewählt; bei aktivierten Sex-Items garantiert der Selektor mindestens eine Karte aus der sinnlichen Kategorie. Beginner alterniert pro Karte (Karte 1 → primary, Karte 2 → partner, …). Bewusste Heuristik: positiv-zelebrierender Frame statt defizitorientierter („Was hat dich getragen?" statt „Was fehlt dir?"), um den Couples-Modus emotional vom diagnostischen Solo-Modus abzuheben.</p>
+
+        <h3>8.7 SWOT-Auswertung mit warmem Framing</h3>
+        <p>Aus den KPI-Vergleichen wird automatisch eine vier-Quadranten-Übersicht erzeugt. Statt der nüchternen SWOT-Begriffe werden warm gerahmte Labels verwendet:</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Klassisch</th><th>App-Label</th><th>Trigger-Kriterium</th></tr></thead>
+                <tbody>
+                    <tr><td>Strengths</td><td>Was uns trägt</td><td>KPI-Score ≥ 7,5/10</td></tr>
+                    <tr><td>Opportunities</td><td>Wo wir wachsen können</td><td>positiver Trend (Δ ≥ +0,5 ggü. letzter Reflexion), aber noch nicht „excellent"</td></tr>
+                    <tr><td>Weaknesses</td><td>Wo es knirscht</td><td>KPI-Score &lt; 6,0/10</td></tr>
+                    <tr><td>Threats</td><td>Wo wir wachsam sein sollten</td><td>negativer Trend (Δ ≤ −0,5)</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Im <strong>Couples-Modus</strong> ist die Reihenfolge der Quadranten umgestellt: Stärken + Chancen werden zuerst gezeigt, danach Defizite + Wachsamkeit (zelebrierender Tonfall, abgestimmt auf das oben beschriebene Karten-Ritual). Im <strong>Solo-Modus</strong> bleibt die klassische diagnostische Reihenfolge.</p>
+        <p>Pro Quadrant maximal 3 Findings (Top-N nach Score-Höhe bzw. Δ-Magnitude). Texte werden algorithmisch aus KPI-spezifischen Templates (z.B. für Konflikt-Klima: „Eure Reibung ist gerade konstruktiv …" vs. „Reibung kostet euch gerade viel Energie …") gewählt — keine LLM-Generierung, deterministisch und nachvollziehbar.</p>
+        <div class="callout callout-question">
+            <strong>Gutachter-Frage zu 8.7:</strong> Ist die warm gerahmte Sprache in der Couples-Sektion noch ausreichend ehrlich, oder droht sie strukturelle Probleme zu verharmlosen? Ist die Schwelle „Score &lt; 6,0 → wo es knirscht" angemessen — oder sollte sie strenger / lockerer sein?
+        </div>
+        <div class="review-field">
+            <label>Antwort zu 8.7 — SWOT-Framing</label>
+            <textarea name="feedback_8_7" rows="3" placeholder="Ihre Einschätzung zur Auswertungs-Sprache …"></textarea>
+        </div>
+
+        <h3>8.8 Trend-Analyse, Datenmodell und iCloud-Sync</h3>
+        <p>Jede Reflexion wird als <code>ReflectionSnapshot</code>-Objekt persistiert. Felder:</p>
+        <ul>
+            <li>Zeitstempel, Modus (<code>solo</code>/<code>couples</code>), Perspektive (<code>primary</code>/<code>partner</code>) bei Couples, <code>pairId</code> für Couples-Pair-Verknüpfung</li>
+            <li><code>kpiScores</code> (KPI → 1–10), <code>themeScores</code>, <code>deepScores</code>, <code>criticalScores</code>, jeweils mit Liste der ausgewählten Items</li>
+            <li><code>themeFreeTexts</code>, <code>deepFreeTexts</code>, <code>criticalFreeTexts</code>, <code>openAnswer</code> (Freitexte zur offenen Schluss-Frage)</li>
+            <li><code>couplesRitualCardsIncluded</code> für die Rotation-Logik des Karten-Rituals</li>
+        </ul>
+        <p>Speicherung primär lokal (<code>UserDefaults</code>); zusätzlich — wenn iOS-iCloud aktiv — über <code>NSUbiquitousKeyValueStore</code> zwischen Geräten der gleichen Apple-ID. Apple-verschlüsselt, ohne Server der FJP Brands GmbH. Synchronisation deduped via Snapshot-UUID; Konflikte werden nach „first-write-wins"-Heuristik aufgelöst (in der Praxis selten, da pro Person und Reflexion nur ein Snapshot existiert).</p>
+        <p>Die Trend-View visualisiert KPI-Sparklines pro KPI mit Datums-Beschriftung, gruppiert in „Verbindung" und „Fundament", filterbar über 3M / 12M / Alle. Snapshots können einzeln in einer Detail-Ansicht geöffnet werden (zeigt vollständige Frage-Antwort-Aufschlüsselung inkl. Freitexte) und aus dem Verlauf einzeln gelöscht werden (Couples: beide Perspektiven gemeinsam via <code>pairId</code>).</p>
+
+        <!-- 9. LIMITATIONEN -->
+        <h2 id="s9" data-num="Abschnitt 9">Bekannte Limitationen</h2>
 
         <h3>8.1 Psychometrische Limitationen</h3>
         <ul>
@@ -754,8 +880,18 @@ avoidanceHigh = avoidance_score &gt; 5.5
             <li>Inklusive Sprache: Rollen-System ist grammatisch korrekt, aber bleibt zweigeschlechtlich im Ausdruck.</li>
         </ul>
 
-        <!-- 9. FRAGEN -->
-        <h2 id="s9" data-num="Abschnitt 9">Konkrete Fragen an die Gutachter:innen</h2>
+        <h3>8.5 Limitationen des Retention-Moduls</h3>
+        <ul>
+            <li><strong>Adaption statt 1:1-Übernahme:</strong> Wie im Hauptkatalog werden auch im Reflexions-Modul keine 1:1-Items aus den Quell-Skalen verwendet — die App nutzt eigene, an den jeweiligen Konstrukten orientierte Formulierungen. Damit gehen die psychometrischen Eigenschaften der Originale verloren; die Reliabilität der Sub-Skalen ist nicht empirisch geprüft.</li>
+            <li><strong>Re-Test-Kontamination:</strong> Bei monatlicher Wiederholung gleicher (oder ähnlicher) Items entsteht ein Lerneffekt, der echte Veränderungen unkenntlich machen kann. Die rotierenden Tiefenfragen-/Themes-Pools mildern dies, eliminieren es aber nicht.</li>
+            <li><strong>Aufmerksamkeits-Bias bei kritischen Items:</strong> Die bewusste Aktivierung sensibler Themen kann selbst eine kognitive Verstärkung bestimmter Gedanken auslösen (z.B. häufigeres Denken an Trennung, sobald die App regelmäßig danach fragt). Dieser Effekt ist nicht trivial abzuschätzen und sollte bei der Bewertung des Soft-Care-Triggers berücksichtigt werden.</li>
+            <li><strong>Couples-Aggregation als Mittelwert:</strong> Bei Couples-Reflexionen wird pro KPI das arithmetische Mittel beider Antworten gebildet. Dadurch geht Information über interne Diskrepanzen (z.B. „einer gibt 9, andere gibt 3") in der Trend-Anzeige verloren — die Einzel-Snapshots werden zwar gespeichert, aber nicht prominent visualisiert.</li>
+            <li><strong>Cross-Mapping-Annahme:</strong> Die Baseline-Berechnung aus Hauptkatalog-Dimensionen unterstellt eine semantische Äquivalenz zwischen statischer Persönlichkeitsfrage und temporärer Reflexionsfrage, die fachlich kritisierbar ist (z.B. ist der „Vertrauen &amp; Eifersucht"-Mittelwert aus dem Hauptkatalog nicht direkt vergleichbar mit der Tagesform-Antwort auf „Wie sehr vertraust du gerade?").</li>
+            <li><strong>Belastungs-Indikator-Schwellenwerte:</strong> Der Auslöser „≥ 2 Items unter 4/10" ist eine pragmatische Heuristik, nicht klinisch validiert. Eine zu niedrige Schwelle führt zu Soft-Care-Fatigue, eine zu hohe Schwelle übersieht echte Krisen.</li>
+        </ul>
+
+        <!-- 10. FRAGEN -->
+        <h2 id="s10" data-num="Abschnitt 10">Konkrete Fragen an die Gutachter:innen</h2>
 
         <h3>Priorität 1 — Inhaltliche Validität</h3>
         <ol>
@@ -801,7 +937,7 @@ avoidanceHigh = avoidance_score &gt; 5.5
         </div>
 
         <!-- 10. REFERENZEN -->
-        <h2 id="s10" data-num="Abschnitt 10">Anhang: Referenzen</h2>
+        <h2 id="s11" data-num="Abschnitt 11">Anhang: Referenzen</h2>
         <h3>Paarforschung und Klinische Psychologie</h3>
         <ul>
             <li>Ainsworth, M. D. S. et al. (1978). <em>Patterns of attachment.</em> Lawrence Erlbaum.</li>
@@ -828,9 +964,19 @@ avoidanceHigh = avoidance_score &gt; 5.5
             <li>Pronin, E. (2008). <em>How we see ourselves and how we see others.</em> Science, 320.</li>
             <li>Schwartz, R. C. (1997). <em>Internal Family Systems Therapy.</em></li>
         </ul>
+        <h3>Quellen für das Retention-Modul (Abschnitt 8)</h3>
+        <ul>
+            <li>Aron, A., Aron, E. N. &amp; Smollan, D. (1992). <em>Inclusion of Other in the Self Scale and the structure of interpersonal closeness.</em> Journal of Personality and Social Psychology, 63(4), 596–612.</li>
+            <li>Funk, J. L. &amp; Rogge, R. D. (2007). <em>Testing the ruler with item response theory: Increasing precision of measurement for relationship satisfaction with the Couples Satisfaction Index.</em> Journal of Family Psychology, 21(4), 572–583.</li>
+            <li>Gottman, J. M. (1994). <em>What predicts divorce? The relationship between marital processes and marital outcomes.</em> Lawrence Erlbaum Associates.</li>
+            <li>Rempel, J. K., Holmes, J. G. &amp; Zanna, M. P. (1985). <em>Trust in close relationships.</em> Journal of Personality and Social Psychology, 49(1), 95–112.</li>
+            <li>Rusbult, C. E., Martz, J. M. &amp; Agnew, C. R. (1998). <em>The Investment Model Scale: Measuring commitment level, satisfaction level, quality of alternatives, and investment size.</em> Personal Relationships, 5(4), 357–391.</li>
+            <li>Schaefer, M. T. &amp; Olson, D. H. (1981). <em>Assessing intimacy: The PAIR inventory.</em> Journal of Marital and Family Therapy, 7(1), 47–60.</li>
+            <li>Wood, A. M., Linley, P. A., Maltby, J., Baliousis, M. &amp; Joseph, S. (2008). <em>The authentic personality: A theoretical and empirical conceptualization and the development of the Authenticity Scale.</em> Journal of Counseling Psychology, 55(3), 385–399.</li>
+        </ul>
 
         <!-- General Comments -->
-        <h2 data-num="Abschnitt 11">Allgemeine Anmerkungen</h2>
+        <h2 data-num="Abschnitt 12">Allgemeine Anmerkungen</h2>
         <p>Falls Sie Beobachtungen, Hinweise oder Empfehlungen haben, die in keinen der vorherigen Abschnitte passen, nutzen Sie gerne das folgende freie Textfeld.</p>
         <div class="review-field">
             <label for="feedback_general">Allgemeine Kommentare, Empfehlungen, offene Hinweise</label>
