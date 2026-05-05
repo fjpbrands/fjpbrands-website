@@ -322,7 +322,7 @@
         <header class="cover">
             <div class="cover-kicker">White Paper · Pre-Launch-Gutachten</div>
             <h1>Reality Check</h1>
-            <p class="cover-subtitle">Algorithmik, Modellbezug und Auswertungslogik der App zur paardiagnostischen Selbstreflexion</p>
+            <p class="cover-subtitle">Algorithmik, Modellbezug und Auswertungslogik der App zur Selbstreflexion in Paarbeziehungen</p>
             <div class="cover-intent">
                 Ein Dokument zur fachlichen Prüfung durch Psycholog:innen und Paartherapeut:innen. Wir bitten um kritische Rückmeldung zu Operationalisierungen, Kalibrierung und ethischer Angemessenheit, bevor die App veröffentlicht wird.
             </div>
@@ -373,7 +373,7 @@
 
         <!-- 1. EXECUTIVE SUMMARY -->
         <h2 id="s1" data-num="Abschnitt 1">Executive Summary</h2>
-        <p><strong>Reality Check — Beziehungen</strong> ist eine iOS-Anwendung für paardiagnostische Selbstreflexion mit zwei Bausteinen: einer einmaligen Hauptanalyse (Fragenkatalog + Auswertung) und einem laufenden Retention-Modul für monatliche Reflexionen. Das Tool kombiniert einen 97-Fragen-Katalog mit einer mehrstufigen Analyse-Pipeline, die auf etablierten Modellen der Persönlichkeits-, Bindungs- und Paarforschung aufbaut, und ergänzt diese um eine wiederkehrende Reflexion auf Basis sieben validierter Paardiagnostik-Skalen.</p>
+        <p><strong>Reality Check — Beziehungen</strong> ist eine iOS-Anwendung zur Selbstreflexion in Paarbeziehungen mit zwei Bausteinen: einer einmaligen Hauptanalyse (Fragenkatalog + Auswertung) und einem laufenden Retention-Modul für monatliche Reflexionen. Das Tool kombiniert einen 97-Fragen-Katalog mit einer mehrstufigen Analyse-Pipeline, die auf etablierten Modellen der Persönlichkeits-, Bindungs- und Paarforschung aufbaut, und ergänzt diese um eine wiederkehrende Reflexion auf Basis sieben validierter Skalen aus der Paarforschung.</p>
         <p>Das Kernversprechen an Nutzer:innen ist <strong>nicht klinische Diagnose</strong>, sondern <strong>strukturierte Selbstreflexion</strong> auf Basis wissenschaftlich fundierter Konstrukte. Die App verarbeitet Daten ausschließlich lokal auf dem Gerät — optional zwischen Geräten der gleichen Apple-ID via iCloud Key-Value-Storage (Apple-verschlüsselt). Es findet keine Übertragung an Server der FJP Brands GmbH statt.</p>
 
         <h3>Methodische Eckdaten — Hauptanalyse</h3>
@@ -429,7 +429,7 @@
             <li><strong>Selbst-Assessment (Self):</strong> Aussagen über sich selbst („Ich spreche Probleme direkt an.")</li>
             <li><strong>Partner-Assessment:</strong> dieselben Konzepte aus Perspektive des anderen („Mein:e Partner:in spricht Probleme direkt an.")</li>
         </ul>
-        <p>Pro Konzept entstehen so <strong>vier Messpunkte</strong>: Lenas Selbst-Einschätzung + Markus' Fremd-Einschätzung von Lena (sowie umgekehrt). Die App vergleicht primär die Differenz <strong>zwischen Selbstbild und Fremdbild</strong>, orientiert an der Self-/Spouse-Report-Methodik der Paardiagnostik.</p>
+        <p>Pro Konzept entstehen so <strong>vier Messpunkte</strong>: Lenas Selbst-Einschätzung + Markus' Fremd-Einschätzung von Lena (sowie umgekehrt). Die App vergleicht primär die Differenz <strong>zwischen Selbstbild und Fremdbild</strong>, orientiert an der Self-/Spouse-Report-Methodik aus der Paarforschung.</p>
         <p>Im Retention-Modul reflektiert jede Person zu sieben standardisierten KPIs auf 1–10-Likert-Skala — wahlweise allein („Mein Blick") oder mit dem Gegenüber sequenziell („Unser Blick"). Die Aggregation erfolgt im Couples-Modus über den Mittelwert beider Antworten pro KPI; die individuellen Antworten bleiben jeweils im eigenen Snapshot mit <code>perspective</code>-Attribut erhalten.</p>
 
         <h3>3.3 Abgrenzung</h3>
@@ -738,7 +738,7 @@ avoidanceHigh = avoidance_score &gt; 5.5
         <p>Die Frequenz ist konfigurierbar (4, 6, 8, 10 oder 12 Wochen, Default 4); Apple-lokale Push-Erinnerungen via <code>UNUserNotificationCenter</code>.</p>
 
         <h3>8.2 KPI-System</h3>
-        <p>Sieben KPIs decken die zentralen Dimensionen wissenschaftlich etablierter Paardiagnostik-Skalen ab. Jeder KPI ist 1:1 einer publizierten Skala zugeordnet, jedoch — vergleichbar zum Hauptkatalog — über eigene Items operationalisiert (keine 1:1-Item-Übernahme).</p>
+        <p>Sieben KPIs decken die zentralen Dimensionen wissenschaftlich etablierter Skalen aus der Paarforschung ab. Jeder KPI ist 1:1 einer publizierten Skala zugeordnet, jedoch — vergleichbar zum Hauptkatalog — über eigene Items operationalisiert (keine 1:1-Item-Übernahme).</p>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>KPI</th><th>Quell-Skala</th><th>Items in App (V2.0)</th><th>Cross-Mapping zum Hauptkatalog</th></tr></thead>
