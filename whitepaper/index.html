@@ -310,27 +310,6 @@
 </head>
 <body>
 
-<!-- Hidden Netlify Form Definition for Detection -->
-<form name="whitepaper-review" netlify netlify-honeypot="bot-field" hidden>
-    <input type="text" name="reviewer_name" />
-    <input type="email" name="reviewer_email" />
-    <textarea name="feedback_6_1"></textarea>
-    <textarea name="feedback_6_3"></textarea>
-    <textarea name="feedback_6_4"></textarea>
-    <textarea name="feedback_6_5"></textarea>
-    <textarea name="feedback_6_6"></textarea>
-    <textarea name="feedback_6_7"></textarea>
-    <textarea name="feedback_6_8"></textarea>
-    <textarea name="feedback_8_2"></textarea>
-    <textarea name="feedback_8_5"></textarea>
-    <textarea name="feedback_8_7"></textarea>
-    <textarea name="feedback_p1"></textarea>
-    <textarea name="feedback_p2"></textarea>
-    <textarea name="feedback_p3"></textarea>
-    <textarea name="feedback_p4"></textarea>
-    <textarea name="feedback_general"></textarea>
-</form>
-
 <div class="container">
 
     <form id="reviewForm" name="whitepaper-review" method="POST" data-netlify="true" netlify-honeypot="bot-field">
@@ -1064,12 +1043,17 @@ avoidanceHigh = avoidance_score &gt; 5.5
         const formData = new FormData(form);
 
         try {
-            // Netlify Forms erwarten eine multipart/form-data POST mit form-name.
-            // Wir senden auf den Whitepaper-Pfad selbst (nicht "/"), damit
-            // Netlify den richtigen Site-Kontext mitbekommt.
-            const response = await fetch(window.location.pathname, {
+            // Netlify Forms: POST an "/" (Form-Handler liegt auf root), URL-encoded,
+            // form-name als erstes Feld. form-name ist bereits als hidden input im
+            // Formular, also automatisch im FormData enthalten.
+            const params = new URLSearchParams();
+            for (const [key, value] of formData.entries()) {
+                params.append(key, value);
+            }
+            const response = await fetch('/', {
                 method: 'POST',
-                body: formData
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params.toString()
             });
             if (!response.ok) {
                 throw new Error('HTTP ' + response.status + ' ' + response.statusText);
