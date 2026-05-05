@@ -1064,12 +1064,16 @@ avoidanceHigh = avoidance_score &gt; 5.5
         const formData = new FormData(form);
 
         try {
-            const response = await fetch('/', {
+            // Netlify Forms erwarten eine multipart/form-data POST mit form-name.
+            // Wir senden auf den Whitepaper-Pfad selbst (nicht "/"), damit
+            // Netlify den richtigen Site-Kontext mitbekommt.
+            const response = await fetch(window.location.pathname, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(formData).toString()
+                body: formData
             });
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) {
+                throw new Error('HTTP ' + response.status + ' ' + response.statusText);
+            }
 
             // Success: hide form, show success screen, clear localStorage
             form.style.display = 'none';
@@ -1077,7 +1081,10 @@ avoidanceHigh = avoidance_score &gt; 5.5
             localStorage.removeItem(STORAGE_KEY);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (err) {
-            errorBanner.textContent = 'Beim Übermitteln ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder senden Sie Ihr Feedback per E-Mail an info@fjpbrands.com.';
+            console.error('Whitepaper form submit failed:', err);
+            errorBanner.textContent = 'Beim Übermitteln ist ein Fehler aufgetreten ('
+                + (err && err.message ? err.message : 'unbekannt')
+                + '). Bitte versuchen Sie es erneut oder senden Sie Ihr Feedback per E-Mail an info@fjpbrands.com.';
             errorBanner.classList.add('visible');
             button.disabled = false;
             button.textContent = 'Feedback absenden';
